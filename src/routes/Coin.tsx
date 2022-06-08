@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   useLocation,
   useParams,
@@ -8,6 +7,7 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
@@ -21,6 +21,18 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 30px;
+    background: inherit;
+    cursor: pointer;
+    &:hover {
+      background-color: white;
+      transition: all 0.8s ease;
+    }
+  }
 `;
 const Title = styled.h1`
   font-size: 48px;
@@ -144,7 +156,10 @@ function Coin() {
   // const [priceInfo, setPriceInfo] = useState<PriceData>();
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
-    () => fetchCoinInfo(coinId)
+    () => fetchCoinInfo(coinId),
+    {
+      refetchInterval: 5000,
+    }
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
@@ -167,7 +182,15 @@ function Coin() {
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
+        <Link to="/">
+          <button>&larr;</button>
+        </Link>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
@@ -186,8 +209,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price:</span>
+              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
