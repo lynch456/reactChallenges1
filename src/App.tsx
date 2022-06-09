@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
+import Toggle from "./Toggle";
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 html, body, div, span, applet, object, iframe,
@@ -34,6 +36,7 @@ body {
   background-color:${(props) => props.theme.bgColor};
   color:${(props) => props.theme.textColor};
   line-height: 1.2;
+ 
 }
 ol, ul {
 	list-style: none;
@@ -63,6 +66,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      <Toggle />
       <Router />
       <ReactQueryDevtools initialIsOpen={true} />
     </>

@@ -4,23 +4,30 @@ import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 const Container = styled.div`
-  padding: 0px 20px;
+  padding: 0px 10px;
 `;
 
 const Header = styled.header`
   height: 10vh;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+
+  position: relative;
 `;
 
-const CoinsList = styled.ul``;
+const CoinsList = styled.ul`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Coin = styled.li`
   background-color: white;
   color: ${(props) => props.theme.bgColor};
-  margin-bottom: 10px;
+  margin: 10px auto;
   border-radius: 15px;
+  width: 400px;
 
   a {
     display: flex;
@@ -39,6 +46,7 @@ const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
+
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -76,7 +84,6 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>코인</Title>
-        <button>dark</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

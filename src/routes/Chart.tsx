@@ -22,7 +22,7 @@ function Chart({ coinId }: ChartProps) {
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
     {
-      refetchInterval: 10000,
+      refetchInterval: 5000,
     }
   );
 
@@ -32,59 +32,25 @@ function Chart({ coinId }: ChartProps) {
         "Loading Chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data?.map((price) => price.close) ?? [],
+              data: data?.map((price) => [
+                new Date(price.time_open).getTime(),
+                price.open,
+                price.high,
+                price.low,
+                price.close,
+              ]) as any,
             },
           ]}
           options={{
-            theme: {
-              mode: "dark",
-            },
-            chart: {
-              height: 300,
-              width: 500,
-              toolbar: {
-                show: false,
-              },
-              background: "transparent",
-            },
-            stroke: {
-              curve: "smooth",
-              width: 3,
-            },
-            grid: {
-              show: false,
-            },
-            yaxis: {
-              show: false,
-            },
-            xaxis: {
-              axisBorder: {
-                show: false,
-              },
-              axisTicks: {
-                show: false,
-              },
-              labels: {
-                show: false,
-              },
-              type: "datetime",
-              categories: data?.map((price) => price.time_close),
-            },
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: ["#0be881"],
-                stops: [0, 100],
-              },
-            },
-            colors: ["#0fbcf9"],
-            tooltip: {
-              y: {
-                formatter: (value) => `$ ${value.toFixed(2)}`,
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#DF7D46", // 상승 시 색상
+                  downward: "#3C90EB", // 하락 시 색상
+                },
               },
             },
           }}

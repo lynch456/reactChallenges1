@@ -21,6 +21,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   .backbtn {
     width: 80px;
     height: 20px;
@@ -30,6 +31,8 @@ const Header = styled.header`
     border: 1px solid black;
     cursor: pointer;
     color: ${(props) => props.theme.textColor};
+    position: absolute;
+    left: 0;
   }
 `;
 const Title = styled.h1`
@@ -79,6 +82,7 @@ const Tab = styled.span<{ isActive: boolean }>`
     display: block;
   }
 `;
+
 const Description = styled.p`
   margin: 20px 0px;
 `;
