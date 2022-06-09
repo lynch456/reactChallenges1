@@ -21,17 +21,15 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 30px;
+  .backbtn {
+    width: 80px;
+    height: 20px;
+    border-radius: 5px;
+    font-size: 16px;
     background: inherit;
+    border: 1px solid black;
     cursor: pointer;
-    &:hover {
-      background-color: white;
-      transition: all 0.8s ease;
-    }
+    color: ${(props) => props.theme.textColor};
   }
 `;
 const Title = styled.h1`
@@ -188,8 +186,8 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
-        <Link to="/">
-          <button>&larr;</button>
+        <Link to="/" className="backbtn">
+          back
         </Link>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}

@@ -35,7 +35,7 @@ function Chart({ coinId }: ChartProps) {
           type="line"
           series={[
             {
-              name: "sales",
+              name: "Price",
               data: data?.map((price) => price.close) ?? [],
             },
           ]}

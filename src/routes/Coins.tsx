@@ -10,7 +10,7 @@ const Container = styled.div`
 const Header = styled.header`
   height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -76,6 +76,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>코인</Title>
+        <button>dark</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
