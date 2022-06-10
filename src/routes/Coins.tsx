@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -23,12 +24,12 @@ const CoinsList = styled.ul`
 `;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardColor};
+  color: ${(props) => props.theme.textColor};
   margin: 10px auto;
   border-radius: 15px;
   width: 400px;
-
+  border: 1px solid black;
   a {
     display: flex;
     align-items: center;
@@ -65,7 +66,11 @@ interface ICoin {
   is_active: boolean;
   type: string;
 }
-function Coins() {
+interface ICoinsProps {
+  toggleDark: () => void;
+}
+
+function Coins({ toggleDark }: ICoinsProps) {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   // const [coins, setCoins] = useState<CoinInterface[]>([]);
   // const [loading, setLoading] = useState(true);
@@ -77,6 +82,8 @@ function Coins() {
   //     setLoading(false);
   //   })();
   // }, []);
+  const [toggle, setToggle] = useState("light");
+  const textChange = () => setToggle(toggle === "dark" ? "light" : "dark");
   return (
     <Container>
       <Helmet>
@@ -84,6 +91,14 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>코인</Title>
+        <button
+          onClick={() => {
+            textChange();
+            toggleDark();
+          }}
+        >
+          {toggle}
+        </button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

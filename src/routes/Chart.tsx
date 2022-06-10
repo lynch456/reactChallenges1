@@ -15,9 +15,10 @@ interface IHistorical {
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 
-function Chart({ coinId }: ChartProps) {
+function Chart({ coinId, isDark }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -37,19 +38,28 @@ function Chart({ coinId }: ChartProps) {
             {
               data: data?.map((price) => [
                 new Date(price.time_open).getTime(),
-                price.open,
-                price.high,
-                price.low,
-                price.close,
+                price.open.toFixed(3),
+                price.high.toFixed(3),
+                price.low.toFixed(3),
+                price.close.toFixed(3),
               ]) as any,
             },
           ]}
           options={{
+            theme: { mode: isDark ? "dark" : "light" },
+            xaxis: {
+              type: "datetime",
+            },
+            yaxis: {
+              tooltip: {
+                enabled: true,
+              },
+            },
             plotOptions: {
               candlestick: {
                 colors: {
-                  upward: "#DF7D46", // 상승 시 색상
-                  downward: "#3C90EB", // 하락 시 색상
+                  upward: "#DF7D46",
+                  downward: "#3C90EB",
                 },
               },
             },

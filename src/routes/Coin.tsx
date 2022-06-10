@@ -147,15 +147,15 @@ interface PriceData {
     };
   };
 }
-
-function Coin() {
+interface ICoinProps {
+  isDark: boolean;
+}
+function Coin({ isDark }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
-  // const [loading, setLoading] = useState(true);
-  // const [info, setInfo] = useState<InfoData>();
-  // const [priceInfo, setPriceInfo] = useState<PriceData>();
+
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId),
@@ -167,20 +167,7 @@ function Coin() {
     ["tickers", coinId],
     () => fetchCoinTickers(coinId)
   );
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json();
 
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-  //     setLoading(false);
-  //   })();
-  // }, [coinId]);
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
@@ -239,7 +226,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`/${coinId}/chart`}>
-              <Chart coinId={coinId} />
+              <Chart isDark={isDark} coinId={coinId} />
             </Route>
           </Switch>
         </>
